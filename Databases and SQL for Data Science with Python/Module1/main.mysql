@@ -1,0 +1,71 @@
+-- 🧰 題組 0：建立資料庫與選擇使用
+CREATE DATABASE IF NOT EXISTS bookstore;
+USE bookstore;
+
+-- 🧱 題組 1：建立資料表
+DROP TABLE IF EXISTS book;
+
+CREATE TABLE book (
+    book_id VARCHAR(10) PRIMARY KEY,
+    title VARCHAR(100),
+    author VARCHAR(100),
+    price DECIMAL(6,2),
+    stock INT
+);
+
+-- 💾 題組 2：插入資料
+INSERT INTO book VALUES ('B1', 'Python Basics', 'Alice', 25.50, 10);
+INSERT INTO book VALUES ('B2', 'SQL for Beginners', 'Bob', 30.00, 5);
+INSERT INTO book VALUES ('B3', 'AI Handbook', 'Carol', 45.00, 0);
+INSERT INTO book VALUES ('B4', 'Web Dev 101', 'David', 20.00, 3);
+INSERT INTO book VALUES ('B5', 'Deep Learning', 'Eve', 50.00, 8);
+
+-- 🔍 題組 3：基本查詢 SELECT
+-- Q1：查詢所有書籍
+SELECT * FROM book;
+
+-- Q2：查詢所有書的 title 與 price
+SELECT title, price FROM book;
+
+-- Q3：查詢價格大於 30 的書籍
+SELECT * FROM book WHERE price > 30;
+
+-- Q4：查詢庫存為 0 的書（已售完）
+SELECT * FROM book WHERE stock = 0;
+
+-- Q5：查詢書名包含 "Dev" 的書（模糊查詢）
+SELECT * FROM book WHERE title LIKE '%Dev%';
+
+-- Q6：查詢價格介於 20 和 40 之間的書籍
+SELECT * FROM book WHERE price BETWEEN 20 AND 40;
+
+-- Q7：查詢作者是 Alice 或 Bob 的書籍
+SELECT * FROM book WHERE author IN ('Alice', 'Bob');
+
+-- 🧮 題組 4：排序與限制
+-- Q8：依照價格由高到低排序
+SELECT * FROM book ORDER BY price DESC;
+
+-- Q9：顯示最便宜的 3 本書
+SELECT * FROM book ORDER BY price ASC LIMIT 3;
+
+-- 📊 題組 5：彙總與計算
+-- Q10：計算所有書的平均價格
+SELECT AVG(price) AS avg_price FROM book;
+
+-- Q11：計算所有書的總價值（價格 × 庫存）
+SELECT SUM(price * stock) AS total_inventory_value FROM book;
+
+-- Q12：統計不同作者的書籍數量
+SELECT author, COUNT(*) AS book_count FROM book GROUP BY author;
+
+-- 🧹 題組 6：更新與刪除
+-- Q13：把作者為 Bob 的書籍價格調高 10%
+UPDATE book SET price = price * 1.1 WHERE author = 'Bob';
+
+-- Q14：刪除庫存為 0 的書籍
+DELETE FROM book WHERE stock = 0;
+
+-- 💡 題組 7：進階（子查詢）
+-- Q15：找出價格最高的書
+SELECT * FROM book WHERE price = (SELECT MAX(price) FROM book);
